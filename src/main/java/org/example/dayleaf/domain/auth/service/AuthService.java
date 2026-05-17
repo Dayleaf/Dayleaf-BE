@@ -61,7 +61,7 @@ public class AuthService {
         return issueTokens(member);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public TokenResponse login(LoginRequest request) {
         Member member = memberRepository.findByLoginId(request.loginId())
                 .orElseThrow(() -> new CustomException(ErrorCode.INVALID_CREDENTIALS));
@@ -73,7 +73,7 @@ public class AuthService {
         return issueTokens(member);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public TokenResponse refresh(RefreshRequest request) {
         Long memberId = jwtTokenProvider.getMemberIdFromToken(request.refreshToken());
 

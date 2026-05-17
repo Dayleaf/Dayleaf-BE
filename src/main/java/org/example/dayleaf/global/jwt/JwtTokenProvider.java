@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import javax.crypto.SecretKey;
 import org.example.dayleaf.domain.member.entity.MemberRole;
+import org.example.dayleaf.global.exception.CustomException;
+import org.example.dayleaf.global.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,6 +37,7 @@ public class JwtTokenProvider {
     public String createAccessToken(Long memberId, MemberRole role) {
         return Jwts.builder()
                 .subject(String.valueOf(memberId))
+                .claim("type", "ACCESS")
                 .claim("role", role.name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessExpiry))
@@ -45,6 +48,7 @@ public class JwtTokenProvider {
     public String createRefreshToken(Long memberId) {
         return Jwts.builder()
                 .subject(String.valueOf(memberId))
+                .claim("type", "REFRESH")
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + refreshExpiry))
                 .signWith(key)
@@ -53,6 +57,9 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
+        if (!"ACCESS".equals(claims.get("type", String.class))) {
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
         Long memberId = Long.parseLong(claims.getSubject());
         String role = claims.get("role", String.class);
         return new UsernamePasswordAuthenticationToken(
@@ -64,8 +71,7 @@ public class JwtTokenProvider {
 
     public Long getMemberIdFromToken(String token) {
         if (!validateToken(token)) {
-            throw new org.example.dayleaf.global.exception.CustomException(
-                    org.example.dayleaf.global.exception.ErrorCode.INVALID_REFRESH_TOKEN);
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
         return Long.parseLong(parseClaims(token).getSubject());
     }
