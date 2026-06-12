@@ -32,4 +32,12 @@ public class ScheduleController {
         ScheduleResponse response = scheduleService.updateSchedule(nodeId, request);
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{nodeId}")
+    public ResponseEntity<Void> deleteSchedule(
+            @PathVariable Long nodeId
+    ) {
+        scheduleService.deleteSchedule(nodeId);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -57,4 +57,12 @@ public class ScheduleService {
 
         return ScheduleResponse.from(schedule);
     }
+
+    @Transactional
+    public void deleteSchedule(Long nodeId) {
+        Schedule schedule = scheduleRepository.findById(nodeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        scheduleRepository.delete(schedule);
+    }
 }
