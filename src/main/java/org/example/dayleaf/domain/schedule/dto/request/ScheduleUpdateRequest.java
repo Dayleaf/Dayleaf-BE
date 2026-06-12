@@ -1,4 +1,12 @@
-package main.java.org.example.dayleaf.domain.schedule.dto.request;
+package org.example.dayleaf.domain.schedule.dto.request;
 
-public class ScheduleUpdateRequest {
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public record ScheduleUpdateRequest(
+        LocalDate date,
+        LocalTime startTime,
+        LocalTime endTime,
+        boolean allDay
+) {
 }
