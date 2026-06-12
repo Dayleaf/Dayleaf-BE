@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.dayleaf.domain.node.entity.Node;
 import org.example.dayleaf.domain.node.repository.NodeRepository;
 import org.example.dayleaf.domain.schedule.dto.request.ScheduleCreateRequest;
+import org.example.dayleaf.domain.schedule.dto.request.ScheduleUpdateRequest;
 import org.example.dayleaf.domain.schedule.dto.response.ScheduleResponse;
 import org.example.dayleaf.domain.schedule.entity.Schedule;
 import org.example.dayleaf.domain.schedule.repository.ScheduleRepository;
@@ -40,5 +41,20 @@ public class ScheduleService {
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
         return ScheduleResponse.from(savedSchedule);
+    }
+
+    @Transactional
+    public ScheduleResponse updateSchedule(Long nodeId, ScheduleUpdateRequest request) {
+        Schedule schedule = scheduleRepository.findById(nodeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        schedule.update(
+                request.date(),
+                request.startTime(),
+                request.endTime(),
+                request.allDay()
+        );
+
+        return ScheduleResponse.from(schedule);
     }
 }
