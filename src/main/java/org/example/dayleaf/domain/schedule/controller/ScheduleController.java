@@ -2,6 +2,7 @@ package org.example.dayleaf.domain.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dayleaf.domain.schedule.dto.request.ScheduleCreateRequest;
+import org.example.dayleaf.domain.schedule.dto.request.ScheduleUpdateRequest;
 import org.example.dayleaf.domain.schedule.dto.response.ScheduleResponse;
 import org.example.dayleaf.domain.schedule.service.ScheduleService;
 import org.springframework.http.HttpStatus;
@@ -21,5 +22,14 @@ public class ScheduleController {
     ) {
         ScheduleResponse response = scheduleService.createSchedule(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PatchMapping("/{nodeId}")
+    public ResponseEntity<ScheduleResponse> updateSchedule(
+            @PathVariable Long nodeId,
+            @RequestBody ScheduleUpdateRequest request
+    ) {
+        ScheduleResponse response = scheduleService.updateSchedule(nodeId, request);
+        return ResponseEntity.ok(response);
     }
 }

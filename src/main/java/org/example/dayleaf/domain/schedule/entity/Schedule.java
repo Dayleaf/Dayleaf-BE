@@ -51,4 +51,11 @@ public class Schedule {
         this.endTime = endTime;
         this.allDay = allDay;
     }
+
+    public void update(LocalDate date, LocalTime startTime, LocalTime endTime, boolean allDay) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.allDay = allDay;
+    }
 }
