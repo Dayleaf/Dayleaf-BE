@@ -1,12 +1,22 @@
 package org.example.dayleaf.domain.repeat.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.dayleaf.domain.node.entity.Node;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "repeat")
@@ -30,11 +40,11 @@ public class Repeat {
     private LocalDate endDate;
 
     @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    private boolean active;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "repeat_type", nullable = false)
-    private RepeatType repeatType;
+    private org.example.dayleaf.domain.repeat.entity.RepeatType repeatType;
 
     @Column(name = "repeat_interval", nullable = false)
     private Integer repeatInterval;
@@ -50,5 +60,52 @@ public class Repeat {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RepeatStatus status;
+    private org.example.dayleaf.domain.repeat.entity.RepeatStatus status;
+
+    @Builder
+    private Repeat(
+            Node node,
+            LocalDate startDate,
+            LocalDate endDate,
+            boolean active,
+            org.example.dayleaf.domain.repeat.entity.RepeatType repeatType,
+            Integer repeatInterval,
+            String daysOfWeek,
+            Integer dayOfMonth,
+            Integer monthOfYear,
+            org.example.dayleaf.domain.repeat.entity.RepeatStatus status
+    ) {
+        this.node = node;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.active = active;
+        this.repeatType = repeatType;
+        this.repeatInterval = repeatInterval;
+        this.daysOfWeek = daysOfWeek;
+        this.dayOfMonth = dayOfMonth;
+        this.monthOfYear = monthOfYear;
+        this.status = status;
+    }
+
+    public void update(
+            LocalDate startDate,
+            LocalDate endDate,
+            boolean active,
+            org.example.dayleaf.domain.repeat.entity.RepeatType repeatType,
+            Integer repeatInterval,
+            String daysOfWeek,
+            Integer dayOfMonth,
+            Integer monthOfYear,
+            org.example.dayleaf.domain.repeat.entity.RepeatStatus status
+    ) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.active = active;
+        this.repeatType = repeatType;
+        this.repeatInterval = repeatInterval;
+        this.daysOfWeek = daysOfWeek;
+        this.dayOfMonth = dayOfMonth;
+        this.monthOfYear = monthOfYear;
+        this.status = status;
+    }
 }
