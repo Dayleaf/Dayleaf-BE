@@ -25,7 +25,13 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER_404", "사용자를 찾을 수 없습니다."),
     MEMBER_ALREADY_EXISTS(HttpStatus.CONFLICT, "MEMBER_003", "이미 존재하는 사용자입니다."),
     LOGIN_ID_ALREADY_EXISTS(HttpStatus.CONFLICT, "MEMBER_001", "이미 사용 중인 아이디입니다."),
-    NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "MEMBER_002", "이미 사용 중인 닉네임입니다.");
+    NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "MEMBER_002", "이미 사용 중인 닉네임입니다."),
+
+    // ================= NODE =================
+    NODE_NOT_FOUND(HttpStatus.NOT_FOUND, "NODE_404", "노드를 찾을 수 없습니다."),
+
+    // ================= SCHEDULE =================
+    SCHEDULE_ALREADY_EXISTS(HttpStatus.CONFLICT, "SCHEDULE_409", "이미 일정이 존재하는 노드입니다.");
 
     private final HttpStatus status;
     private final String code;
