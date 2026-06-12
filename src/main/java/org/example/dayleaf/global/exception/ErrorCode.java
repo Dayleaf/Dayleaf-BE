@@ -31,7 +31,16 @@ public enum ErrorCode {
     NODE_NOT_FOUND(HttpStatus.NOT_FOUND, "NODE_404", "노드를 찾을 수 없습니다."),
 
     // ================= SCHEDULE =================
-    SCHEDULE_ALREADY_EXISTS(HttpStatus.CONFLICT, "SCHEDULE_409", "이미 일정이 존재하는 노드입니다.");
+    SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "SCHEDULE_404", "일정을 찾을 수 없습니다."),
+    SCHEDULE_ALREADY_EXISTS(HttpStatus.CONFLICT, "SCHEDULE_409", "이미 일정이 존재하는 노드입니다."),
+
+    // ================= TODO =================
+    TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "TODO_404", "투두를 찾을 수 없습니다."),
+    TODO_ACCESS_DENIED(HttpStatus.FORBIDDEN, "TODO_403", "해당 투두에 접근 권한이 없습니다."),
+
+    // ================= CATEGORY =================
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "CATEGORY_404", "카테고리를 찾을 수 없습니다."),
+    CATEGORY_ACCESS_DENIED(HttpStatus.FORBIDDEN, "CATEGORY_403", "해당 카테고리에 접근 권한이 없습니다.");
 
     private final HttpStatus status;
     private final String code;
