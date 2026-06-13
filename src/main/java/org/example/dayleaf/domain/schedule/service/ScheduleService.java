@@ -1,5 +1,7 @@
 package org.example.dayleaf.domain.schedule.service;
 
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.dayleaf.domain.node.entity.Node;
 import org.example.dayleaf.domain.node.repository.NodeRepository;
@@ -64,5 +66,41 @@ public class ScheduleService {
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         scheduleRepository.delete(schedule);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScheduleResponse> getSchedules() {
+        return scheduleRepository.findAll().stream()
+                .map(ScheduleResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ScheduleResponse getSchedule(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        return ScheduleResponse.from(schedule);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScheduleResponse> getSchedulesByMonth(LocalDate startDate, LocalDate endDate) {
+        return scheduleRepository.findByDateBetween(startDate, endDate).stream()
+                .map(ScheduleResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScheduleResponse> getSchedulesByWeek(LocalDate startDate, LocalDate endDate) {
+        return scheduleRepository.findByDateBetween(startDate, endDate).stream()
+                .map(ScheduleResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ScheduleResponse> getSchedulesByDay(LocalDate date) {
+        return scheduleRepository.findByDate(date).stream()
+                .map(ScheduleResponse::from)
+                .toList();
     }
 }
