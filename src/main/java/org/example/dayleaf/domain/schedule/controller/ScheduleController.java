@@ -1,5 +1,7 @@
 package org.example.dayleaf.domain.schedule.controller;
 
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.dayleaf.domain.schedule.dto.request.ScheduleCreateRequest;
 import org.example.dayleaf.domain.schedule.dto.request.ScheduleUpdateRequest;
@@ -39,5 +41,45 @@ public class ScheduleController {
     ) {
         scheduleService.deleteSchedule(nodeId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ScheduleResponse>> getSchedules() {
+        List<ScheduleResponse> response = scheduleService.getSchedules();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/month")
+    public ResponseEntity<List<ScheduleResponse>> getSchedulesByMonth(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate
+    ) {
+        List<ScheduleResponse> response = scheduleService.getSchedulesByMonth(startDate, endDate);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/week")
+    public ResponseEntity<List<ScheduleResponse>> getSchedulesByWeek(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate
+    ) {
+        List<ScheduleResponse> response = scheduleService.getSchedulesByWeek(startDate, endDate);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/day")
+    public ResponseEntity<List<ScheduleResponse>> getSchedulesByDay(
+            @RequestParam LocalDate date
+    ) {
+        List<ScheduleResponse> response = scheduleService.getSchedulesByDay(date);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{scheduleId}")
+    public ResponseEntity<ScheduleResponse> getSchedule(
+            @PathVariable Long scheduleId
+    ) {
+        ScheduleResponse response = scheduleService.getSchedule(scheduleId);
+        return ResponseEntity.ok(response);
     }
 }
