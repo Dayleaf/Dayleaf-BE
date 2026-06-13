@@ -23,6 +23,7 @@ import org.example.dayleaf.global.base.BaseEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Todo extends BaseEntity {
 
+    // node_id를 PK로 공유 (1:1 구조)
     @Id
     private Long id;
 
@@ -31,18 +32,46 @@ public class Todo extends BaseEntity {
     @JoinColumn(name = "node_id")
     private Node node;
 
+    // 카테고리 (nullable)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    // 우선순위
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Priority priority;
 
+    // 사용 상태 (완료 여부 아님 — 완료는 TodoExecution으로 관리)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TodoStatus status;
+
     @Builder
-    private Todo(Node node, Category category, Priority priority) {
+    private Todo(Node node, Category category, Priority priority, TodoStatus status) {
         this.node = node;
         this.category = category;
         this.priority = priority;
+        this.status = status != null ? status : TodoStatus.ACTIVE;
+    }
+
+    // 우선순위 변경
+    public void updatePriority(Priority priority) {
+        this.priority = priority;
+    }
+
+    // 사용 상태 변경
+    public void updateStatus(TodoStatus status) {
+        this.status = status;
+    }
+
+    // 카테고리 지정
+    public void assignCategory(Category category) {
+        this.category = category;
+    }
+
+    // 카테고리 해제
+    public void removeCategory() {
+        this.category = null;
     }
 }
