@@ -1,5 +1,6 @@
 package org.example.dayleaf.domain.repeat.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.dayleaf.domain.repeat.dto.request.RepeatCreateRequest;
 import org.example.dayleaf.domain.repeat.dto.request.RepeatUpdateRequest;
@@ -15,6 +16,20 @@ import org.springframework.web.bind.annotation.*;
 public class RepeatController {
 
     private final RepeatService repeatService;
+
+    @GetMapping
+    public ResponseEntity<List<RepeatResponse>> getRepeats() {
+        List<RepeatResponse> response = repeatService.getRepeats();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{repeatId}")
+    public ResponseEntity<RepeatResponse> getRepeat(
+            @PathVariable Integer repeatId
+    ) {
+        RepeatResponse response = repeatService.getRepeat(repeatId);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping
     public ResponseEntity<RepeatResponse> createRepeat(
