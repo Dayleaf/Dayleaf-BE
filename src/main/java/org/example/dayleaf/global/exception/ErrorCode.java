@@ -31,7 +31,11 @@ public enum ErrorCode {
     NODE_NOT_FOUND(HttpStatus.NOT_FOUND, "NODE_404", "노드를 찾을 수 없습니다."),
 
     // ================= SCHEDULE =================
-    SCHEDULE_ALREADY_EXISTS(HttpStatus.CONFLICT, "SCHEDULE_409", "이미 일정이 존재하는 노드입니다.");
+    SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "SCHEDULE_404", "일정을 찾을 수 없습니다."),
+    SCHEDULE_ALREADY_EXISTS(HttpStatus.CONFLICT, "SCHEDULE_409", "이미 일정이 존재하는 노드입니다."),
+
+    // ================= REPEAT =================
+    REPEAT_NOT_FOUND(HttpStatus.NOT_FOUND, "REPEAT_404", "반복을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;
