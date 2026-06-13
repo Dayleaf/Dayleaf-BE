@@ -1,5 +1,6 @@
 package org.example.dayleaf.domain.repeat.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.dayleaf.domain.node.entity.Node;
 import org.example.dayleaf.domain.node.repository.NodeRepository;
@@ -12,6 +13,8 @@ import org.example.dayleaf.global.exception.CustomException;
 import org.example.dayleaf.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -70,5 +73,20 @@ public class RepeatService {
                 .orElseThrow(() -> new CustomException(ErrorCode.REPEAT_NOT_FOUND));
 
         repeatRepository.delete(repeat);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RepeatResponse> getRepeats() {
+        return repeatRepository.findAll().stream()
+                .map(RepeatResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public RepeatResponse getRepeat(Integer repeatId) {
+        Repeat repeat = repeatRepository.findById(repeatId)
+                .orElseThrow(() -> new CustomException(ErrorCode.REPEAT_NOT_FOUND));
+
+        return RepeatResponse.from(repeat);
     }
 }
